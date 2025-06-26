@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@tailwind utilities;
+
+@layer components {
+  .modal {
+    @apply bg-amber-300 p-2  rounded-xl;
+  }
+  .card {
+    @apply border border-purple-200 shadow-lg shadow-purple-300 hover:shadow-purple-500 hover:shadow-md p-6 mb-2 mx-4
+    rounded-xl flex justify-between;
+  }
+}
+
+@layer utilities {
+  .add-boton {
+    @apply text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-xl text-sm px-5 py-2.5 mx-4 mb-2;
+  }
+  .modal-boton {
+    @apply w-28 p-2 rounded-lg text-white cursor-pointer;
+  }
+  .overlay {
+    @apply bg-gradient-to-r from-red-600  to-pink-950;
+  }
+  .icons {
+    @apply text-xl text-purple-400 cursor-pointer hover:text-purple-600;
+  }
+  .item-menu {
+    @apply py-1 text-purple-950 hover:text-purple-400 focus:text-purple-950 cursor-pointer;
+  }
+  .item-menu-cat {
+    @apply px-2 py-1 hover:text-purple-950 cursor-pointer;
+  }
+  .animate-slide-down {
+    animation: slide-down 0.3s ease-in-out;
+  }
+  @keyframes slide-down {
+    0% {
+      transform: translateY(-10%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+.menu-hamburguer-position {
+  top: 64px;
+  bottom: 40px;
+}
