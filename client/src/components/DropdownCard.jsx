@@ -1,9 +1,15 @@
 import { useRef, useState } from "react";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { useClickOut } from "../hooks/useClickOut";
-export default function DropdownCard() {
+
+export default function DropdownCard({
+  onDeleteCat,
+  onCat,
+  onSelectCategory,
+  onCatTitulo,
+}) {
   const [isOpen, setIsOpen] = useState(false);
-  const dropCardRef = useRef(null);
+  const dropCardRef = useRef();
 
   //para cerrar haciendo click fuera
   useClickOut(dropCardRef, () => setIsOpen(false));
@@ -19,11 +25,18 @@ export default function DropdownCard() {
         <FaEllipsisVertical className="text-purple-950 text-lg cursor-pointer hover:text-purple-500" />
       </button>
       {isOpen && (
-        <div className="absolute">
-          <ul>
-            <li>Abrir</li>
-            <li>Editar</li>
-            <li>Eliminar</li>
+        <div className="absolute dropCard " ref={dropCardRef}>
+          <ul className="">
+            <li
+              className="item-dropCard"
+              onClick={() => onSelectCategory(onCatTitulo)}
+            >
+              Abrir
+            </li>
+            <li className="item-dropCard">Editar</li>
+            <li className="item-dropCard" onClick={() => onDeleteCat(onCat)}>
+              Eliminar
+            </li>
           </ul>
         </div>
       )}

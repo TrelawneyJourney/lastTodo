@@ -34,7 +34,12 @@ export default function Card({
               </p>
             </div>
           </div>
-          <DropdownCard />
+          <DropdownCard
+            onDeleteCat={onDeleteCat}
+            onCat={c.id}
+            onSelectCategory={onSelectCategory}
+            onCatTitulo={c.titulo}
+          />
           {/* <FaEllipsisVertical
             className="text-purple-950 text-lg cursor-pointer hover:text-purple-500"
             onClick={() => onDeleteCat(c.id)}

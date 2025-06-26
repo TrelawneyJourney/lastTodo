@@ -31,6 +31,12 @@
   .item-menu-cat {
     @apply px-2 py-1 hover:text-purple-950 cursor-pointer;
   }
+  .dropCard {
+    @apply bg-purple-50 p-1 border border-purple-200 rounded-l z-20 text-gray-700 text-sm;
+  }
+  .item-dropCard {
+    @apply py-[2px] hover:text-purple-400 cursor-pointer;
+  }
   .animate-slide-down {
     animation: slide-down 0.3s ease-in-out;
   }
