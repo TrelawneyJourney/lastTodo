@@ -1,16 +1,39 @@
 import { IoIosSend } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import SelectCategorias from "./SelectCategorias";
+import { useEffect } from "react";
 
 export default function Modal({
   onclose,
   todoLogic,
   onOpenModalCat,
   allCategorias,
+  mode,
+  todoAEditar,
 }) {
   {
     /**transform transition-all duration-300 opacity-100 translate-x-4 ease-in-out */
   }
+
+  const editMode = mode === "edit";
+
+  useEffect(() => {
+    if (editMode && todoAEditar) {
+      todoLogic.setTexto(todoAEditar.texto);
+      todoLogic.setCategoria(todoAEditar.categoria);
+      todoLogic.setTodoId(todoAEditar.id);
+    }
+  }, [editMode, todoAEditar]);
+
+  const handleSubmit = (e) => {
+    if (editMode) {
+      todoLogic.editTodo(e);
+    } else {
+      todoLogic.postData(e);
+    }
+    onclose();
+  };
+
   return (
     <div className="absolute inset-0 flex justify-center items-end p-8 bg-purple-400/80 backdrop-blur-xs">
       <div className="relative bg-white rounded-2xl w-full max-w-sm p-4 shadow-lg shadow-purple-950 ">
@@ -23,7 +46,7 @@ export default function Modal({
           <IoClose />
         </button>
 
-        <form className="flex flex-col" onSubmit={todoLogic.postData}>
+        <form className="flex flex-col" onSubmit={handleSubmit}>
           <input
             type="text"
             value={todoLogic.texto}
@@ -39,6 +62,7 @@ export default function Modal({
               setCategoria={todoLogic.setCategoria}
               categorias={allCategorias}
               onNuevaCat={onOpenModalCat}
+              disabled={editMode}
             />
 
             <button className="bg-purple-500 text-white rounded-full p-2 shadow-md shadow-purple-600 cursor-pointer">

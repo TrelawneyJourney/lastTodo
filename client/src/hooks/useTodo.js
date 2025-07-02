@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SERVER_URL } from "../../config";
 import { categories } from "../constant";
 
-export default function useTodo({ todos, setTodos }) {
+export default function useTodo({ todos, setTodos, todoId, setTodoId }) {
   const [texto, setTexto] = useState("");
   const [categoria, setCategoria] = useState("");
   const [categorias, setCategorias] = useState(categories);
@@ -27,7 +27,7 @@ export default function useTodo({ todos, setTodos }) {
 
       if (response.status === 200) {
         console.log("Se creo:", data);
-        setTodos((prev) => [...prev, newTodo]);
+        setTodos((prev) => [...prev, data]);
         console.log("funciono");
       }
       //limpiar inputs
@@ -61,7 +61,7 @@ export default function useTodo({ todos, setTodos }) {
     const nuevoEstado = !todoToComplete.completado;
 
     try {
-      const response = await fetch(`${SERVER_URL}/todos/${todoId}`, {
+      const response = await fetch(`${SERVER_URL}/todos/${todoId}/completado`, {
         method: "PUT",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({ completado: nuevoEstado }),
@@ -79,6 +79,53 @@ export default function useTodo({ todos, setTodos }) {
     }
   };
 
+  // editar todo
+  const editTodo = async (e) => {
+    e.preventDefault();
+
+    const updatedTodo = {
+      user_email: "anto@gmail.com",
+      texto,
+    };
+    try {
+      const response = await fetch(`${SERVER_URL}/todos/${todoId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedTodo),
+      });
+      const data = await response.json();
+      console.log("Respuesta del PUT:", data);
+
+      if (response.status === 200) {
+        console.log("Todo editado correctamente");
+        //actualizo el estado
+        setTodos((prev) =>
+          prev.map((todo) =>
+            todo.id === todoId ? { ...todo, ...updatedTodo } : todo
+          )
+        );
+
+        //limpio inputs
+        // setTexto("");
+        // setCategoria("");
+        // setTodoId(null);
+        resetForm();
+      } else {
+        console.error("Falló el update en la base de datos");
+      }
+      console.log("Enviando PUT con id:", todoId, "y datos:", updatedTodo);
+    } catch (error) {
+      console.error("Error al editar", error);
+    }
+  };
+
+  //para limpiar los campos
+  const resetForm = () => {
+    setTexto("");
+    setCategoria("");
+    setTodoId(null);
+  };
+
   return {
     texto,
     setTexto,
@@ -86,8 +133,12 @@ export default function useTodo({ todos, setTodos }) {
     setCategoria,
     categorias,
     setCategorias,
+    todoId,
+    setTodoId,
     postData,
     deleteData,
     checkedTodo,
+    editTodo,
+    resetForm,
   };
 }

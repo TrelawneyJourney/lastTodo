@@ -19,10 +19,14 @@ export default function MobileLayout() {
   const [showModal, setShowModal] = useState(false);
   const [showModalCat, setShowModalCat] = useState(false);
   const { data: todos, setData: setTodos, loading, error } = useFetchData();
-  const todoLogic = useTodo({ todos, setTodos });
   // const { titulo, emoji } = useNuevaCat({ setDataCat });
   const { dataCat, setDataCat } = useFetchCat();
   const catLogic = useNuevaCat({ dataCat, setDataCat });
+
+  const [todoId, setTodoId] = useState(null);
+  const [todoEditando, setTodoEditando] = useState(null);
+
+  const todoLogic = useTodo({ todos, setTodos, todoId, setTodoId });
 
   //todas las categorias
   const todasLasCategorias = [...categoriasFijas, ...dataCat];
@@ -37,6 +41,12 @@ export default function MobileLayout() {
       ? todos
       : todos.filter((todo) => todo.categoria === selectedCategory);
 
+  const handleOnCloseModal = () => {
+    setShowModal(false);
+    setTodoEditando(null);
+    setTodoId(null);
+    todoLogic.resetForm();
+  };
   return (
     <div className="min-h-screen flex items-center justify-center">
       {/** centra el "marco de cel" */}{" "}
@@ -77,6 +87,9 @@ export default function MobileLayout() {
                 onCheck={todoLogic.checkedTodo}
                 onBack={() => setSeletedCategory(null)}
                 allCategorias={todasLasCategorias}
+                setTodoEditando={setTodoEditando}
+                setShowModal={setShowModal}
+                setTodoId={todoLogic.setTodoId}
               />
             </div>
           )}
@@ -97,12 +110,15 @@ export default function MobileLayout() {
         </footer>
 
         {/**Modales */}
+
         {showModal && (
           <Modal
-            onclose={() => setShowModal(false)}
+            onclose={handleOnCloseModal}
             todoLogic={todoLogic}
             onOpenModalCat={() => setShowModalCat(true)}
             allCategorias={todasLasCategorias}
+            mode={todoEditando ? "edit" : "create"}
+            todoAEditar={todoEditando}
           />
         )}
         {showModalCat && (

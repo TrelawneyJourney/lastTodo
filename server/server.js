@@ -65,7 +65,7 @@ app.delete("/todos/:id", async (req, res) => {
 });
 
 //todo completado
-app.put("/todos/:id", async (req, res) => {
+app.put("/todos/:id/completado", async (req, res) => {
   const { id } = req.params;
   const { completado } = req.body;
   try {
@@ -76,6 +76,27 @@ app.put("/todos/:id", async (req, res) => {
     res.json(completedTodo.rows[0]);
   } catch (error) {
     console.error("Error al actualizar el estado de completado", error);
+  }
+});
+
+//editar todo
+app.put("/todos/:todoId", async (req, res) => {
+  const { todoId } = req.params;
+  const { user_email, texto } = req.body;
+  try {
+    const todoEdit = await pool.query(
+      "UPDATE todos SET user_email = $1, texto = $2 WHERE id = $3 RETURNING *",
+      [user_email, texto, todoId]
+    );
+    // res.json(todoEdit);
+
+    res.status(200).json(todoEdit.rows[0]);
+    console.log("Editando todo con ID:", todoId);
+    console.log("Datos recibidos:", req.body);
+    console.log("Resultado de UPDATE:", todoEdit.rowCount);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error al editar todo" });
   }
 });
 

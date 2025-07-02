@@ -9,8 +9,19 @@ export default function TodoPage({
   onBack,
   onCheck,
   allCategorias,
+  setTodoEditando,
+  setShowModal,
+  setTodoId,
 }) {
   const categoriaData = allCategorias.find((cat) => cat.titulo === categoria);
+
+  const handleOpenModalEdit = (todo) => {
+    console.log("Id del todo a editar", todo.id);
+    setTodoEditando(todo);
+    setTodoId(todo.id);
+    setShowModal(true);
+  };
+
   return (
     <div>
       <div className="m-4 flex flex-col">
@@ -50,6 +61,7 @@ export default function TodoPage({
                 todo={todo}
                 onDelete={onDelete}
                 onCheck={onCheck}
+                onOpenModalEdit={handleOpenModalEdit}
               />
             ))}
           </ul>
