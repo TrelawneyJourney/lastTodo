@@ -7,6 +7,7 @@ export default function DropdownCard({
   onCat,
   onSelectCategory,
   onCatTitulo,
+  setShowModalDelete,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropCardRef = useRef();
@@ -37,6 +38,7 @@ export default function DropdownCard({
             <li className="item-dropCard" onClick={() => onDeleteCat(onCat)}>
               Eliminar
             </li>
+            <li className="item-dropCard">Eliminar Prueba</li>
           </ul>
         </div>
       )}

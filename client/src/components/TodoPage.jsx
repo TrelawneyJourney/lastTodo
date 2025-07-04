@@ -5,13 +5,14 @@ import { FaReply } from "react-icons/fa6";
 export default function TodoPage({
   tareas,
   categoria,
-  onDelete,
   onBack,
   onCheck,
   allCategorias,
   setTodoEditando,
   setShowModal,
   setTodoId,
+  setShowModalDelete,
+  setIdAEliminar,
 }) {
   const categoriaData = allCategorias.find((cat) => cat.titulo === categoria);
 
@@ -20,6 +21,10 @@ export default function TodoPage({
     setTodoEditando(todo);
     setTodoId(todo.id);
     setShowModal(true);
+  };
+  const handleOpenModalDelete = (todo) => {
+    setIdAEliminar(todo.id);
+    setShowModalDelete(true);
   };
 
   return (
@@ -59,9 +64,9 @@ export default function TodoPage({
               <ListItem
                 key={todo.id}
                 todo={todo}
-                onDelete={onDelete}
                 onCheck={onCheck}
                 onOpenModalEdit={handleOpenModalEdit}
+                onOpenModalDelete={handleOpenModalDelete}
               />
             ))}
           </ul>

@@ -19,6 +19,9 @@
   .modal-boton {
     @apply w-28 p-2 rounded-lg text-white cursor-pointer;
   }
+  .modal-boton-delete {
+    @apply w-22 p-2 rounded-lg text-white cursor-pointer;
+  }
   .overlay {
     @apply bg-gradient-to-r from-red-600  to-pink-950;
   }

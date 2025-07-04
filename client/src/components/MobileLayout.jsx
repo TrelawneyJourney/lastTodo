@@ -14,10 +14,13 @@ import ModalCategoria from "./ModalCategoria";
 import useNuevaCat from "../hooks/useNuevaCat";
 import useFetchCat from "../hooks/useFetchCat";
 import { categories as categoriasFijas } from "../constant";
+import ModalDelete from "./ModalDelete";
 
 export default function MobileLayout() {
   const [showModal, setShowModal] = useState(false);
   const [showModalCat, setShowModalCat] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
+
   const { data: todos, setData: setTodos, loading, error } = useFetchData();
   // const { titulo, emoji } = useNuevaCat({ setDataCat });
   const { dataCat, setDataCat } = useFetchCat();
@@ -25,6 +28,7 @@ export default function MobileLayout() {
 
   const [todoId, setTodoId] = useState(null);
   const [todoEditando, setTodoEditando] = useState(null);
+  const [idAEliminar, setIdAEliminar] = useState(null);
 
   const todoLogic = useTodo({ todos, setTodos, todoId, setTodoId });
 
@@ -75,6 +79,8 @@ export default function MobileLayout() {
                   nuevaCat={dataCat}
                   allCategorias={todasLasCategorias}
                   onDeleteCat={catLogic.deleteCategoria}
+                  setShowModalDelete={setShowModalDelete}
+                  setIdAEliminar={setIdAEliminar}
                 />
               </div>
             )
@@ -83,13 +89,14 @@ export default function MobileLayout() {
               <TodoPage
                 tareas={tareasFiltradas}
                 categoria={selectedCategory}
-                onDelete={todoLogic.deleteData}
                 onCheck={todoLogic.checkedTodo}
                 onBack={() => setSeletedCategory(null)}
                 allCategorias={todasLasCategorias}
                 setTodoEditando={setTodoEditando}
                 setShowModal={setShowModal}
                 setTodoId={todoLogic.setTodoId}
+                setShowModalDelete={setShowModalDelete}
+                setIdAEliminar={setIdAEliminar}
               />
             </div>
           )}
@@ -125,6 +132,19 @@ export default function MobileLayout() {
           <ModalCategoria
             onClose={() => setShowModalCat(false)}
             catLogic={catLogic}
+          />
+        )}
+        {showModalDelete && (
+          <ModalDelete
+            onCloseDelete={() => {
+              setShowModalDelete(false);
+              setIdAEliminar(null);
+            }}
+            onDelete={() => {
+              todoLogic.deleteData(idAEliminar);
+              setShowModalDelete(false);
+              setIdAEliminar(null);
+            }}
           />
         )}
       </div>
