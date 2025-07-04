@@ -6,9 +6,9 @@ export default function Card({
   todos,
   onSelectCategory,
   allCategorias,
-  onDeleteCat,
   setShowModalDelete,
   setIdAEliminar,
+  setTipoAEliminar,
 }) {
   const catDinamicas = [...new Set(todos.map((todo) => todo.categoria))]; // filtra q no se repita el nombre de la categoria.
   const catPredefinida = categories.map((c) => c.title);
@@ -17,7 +17,8 @@ export default function Card({
   );
 
   const handleOpenModalDelete = (cate) => {
-    setIdAEliminar(cate.id);
+    setIdAEliminar(cate);
+    setTipoAEliminar("categoria");
     setShowModalDelete(true);
   };
 
@@ -42,11 +43,10 @@ export default function Card({
             </div>
           </div>
           <DropdownCard
-            onDeleteCat={onDeleteCat}
             onCat={c.id}
             onSelectCategory={onSelectCategory}
             onCatTitulo={c.titulo}
-            setShowModalDelete={handleOpenModalDelete}
+            onOpenModalDelete={handleOpenModalDelete}
           />
           {/* <FaEllipsisVertical
             className="text-purple-950 text-lg cursor-pointer hover:text-purple-500"

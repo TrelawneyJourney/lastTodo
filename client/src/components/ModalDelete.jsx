@@ -1,6 +1,10 @@
 import { IoClose } from "react-icons/io5";
 
-export default function ModalDelete({ onCloseDelete, onDelete }) {
+export default function ModalDelete({
+  onCloseDelete,
+  onDelete,
+  tipoAEliminar,
+}) {
   return (
     <div className="absolute inset-0 flex justify-center items-center p-8 bg-purple-100/80">
       <div className="relative bg-white rounded-2xl w-full max-w-sm p-6 shadow-lg shadow-purple-950 ">
@@ -11,9 +15,14 @@ export default function ModalDelete({ onCloseDelete, onDelete }) {
         >
           <IoClose />
         </button>
-        <div className="flex flex-col justify-center items-center">
-          <p className="font-bold text-gray-600 text-lg">¿Confirmas?</p>
-          <p className="text-gray-400">Esta acción no se puede deshacer.</p>
+        <div className="flex flex-col justify-center items-center mt-2">
+          <p className="font-bold text-gray-600 text-base">
+            ¿Confirmás eliminar{" "}
+            {tipoAEliminar === "todo" ? "la tarea" : "la categoría"}?
+          </p>
+          <p className="text-gray-400 text-sm">
+            Esta acción no se puede deshacer.
+          </p>
           <div className="flex gap-3 m-3.5">
             <button
               onClick={onDelete}

@@ -13,6 +13,7 @@ export default function TodoPage({
   setTodoId,
   setShowModalDelete,
   setIdAEliminar,
+  setTipoAliminar,
 }) {
   const categoriaData = allCategorias.find((cat) => cat.titulo === categoria);
 
@@ -24,6 +25,7 @@ export default function TodoPage({
   };
   const handleOpenModalDelete = (todo) => {
     setIdAEliminar(todo.id);
+    setTipoAliminar("todo");
     setShowModalDelete(true);
   };
 

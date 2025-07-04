@@ -28,7 +28,10 @@ export default function MobileLayout() {
 
   const [todoId, setTodoId] = useState(null);
   const [todoEditando, setTodoEditando] = useState(null);
+  //para pasar al modalDelete:
   const [idAEliminar, setIdAEliminar] = useState(null);
+  //para saber si elimino cat o todo:
+  const [tipoAEliminar, setTipoAEliminar] = useState(null);
 
   const todoLogic = useTodo({ todos, setTodos, todoId, setTodoId });
 
@@ -50,6 +53,16 @@ export default function MobileLayout() {
     setTodoEditando(null);
     setTodoId(null);
     todoLogic.resetForm();
+  };
+  const handleOnDeleteModalDelete = () => {
+    if (tipoAEliminar === "todo") {
+      todoLogic.deleteData(idAEliminar);
+    } else if (tipoAEliminar === "categoria") {
+      catLogic.deleteCategoria(idAEliminar);
+    }
+    setShowModalDelete(false);
+    setIdAEliminar(null);
+    setTipoAEliminar(null);
   };
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -78,9 +91,9 @@ export default function MobileLayout() {
                   onSelectCategory={setSeletedCategory}
                   nuevaCat={dataCat}
                   allCategorias={todasLasCategorias}
-                  onDeleteCat={catLogic.deleteCategoria}
                   setShowModalDelete={setShowModalDelete}
                   setIdAEliminar={setIdAEliminar}
+                  setTipoAEliminar={setTipoAEliminar}
                 />
               </div>
             )
@@ -97,6 +110,7 @@ export default function MobileLayout() {
                 setTodoId={todoLogic.setTodoId}
                 setShowModalDelete={setShowModalDelete}
                 setIdAEliminar={setIdAEliminar}
+                setTipoAliminar={setTipoAEliminar}
               />
             </div>
           )}
@@ -139,12 +153,10 @@ export default function MobileLayout() {
             onCloseDelete={() => {
               setShowModalDelete(false);
               setIdAEliminar(null);
+              setTipoAEliminar(null);
             }}
-            onDelete={() => {
-              todoLogic.deleteData(idAEliminar);
-              setShowModalDelete(false);
-              setIdAEliminar(null);
-            }}
+            onDelete={handleOnDeleteModalDelete}
+            tipoAEliminar={tipoAEliminar}
           />
         )}
       </div>

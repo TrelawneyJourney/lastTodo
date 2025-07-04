@@ -3,11 +3,10 @@ import { FaEllipsisVertical } from "react-icons/fa6";
 import { useClickOut } from "../hooks/useClickOut";
 
 export default function DropdownCard({
-  onDeleteCat,
   onCat,
   onSelectCategory,
   onCatTitulo,
-  setShowModalDelete,
+  onOpenModalDelete,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropCardRef = useRef();
@@ -35,10 +34,13 @@ export default function DropdownCard({
               Abrir
             </li>
             <li className="item-dropCard">Editar</li>
-            <li className="item-dropCard" onClick={() => onDeleteCat(onCat)}>
+
+            <li
+              className="item-dropCard"
+              onClick={() => onOpenModalDelete(onCat)}
+            >
               Eliminar
             </li>
-            <li className="item-dropCard">Eliminar Prueba</li>
           </ul>
         </div>
       )}
