@@ -147,6 +147,22 @@ app.delete("/nuevaCategorias/:id", async (req, res) => {
   }
 });
 
+//editar categoria
+app.put("/nuevaCategorias/:idCat", async (req, res) => {
+  const { idCat } = req.params;
+  const { titulo, emoji, user_email } = req.body;
+  try {
+    const catEdit = await pool.query(
+      "UPDATE nuevaCategorias SET titulo = $1, emoji = $2, user_email = $3 WHERE id = $4 RETURNING *",
+      [titulo, emoji, user_email, idCat]
+    );
+    res.status(200).json(catEdit.rows[0]);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error al eliminar la categoria." });
+  }
+});
+
 //escuchar en el puerto
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

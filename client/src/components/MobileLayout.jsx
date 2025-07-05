@@ -24,16 +24,21 @@ export default function MobileLayout() {
   const { data: todos, setData: setTodos, loading, error } = useFetchData();
   // const { titulo, emoji } = useNuevaCat({ setDataCat });
   const { dataCat, setDataCat } = useFetchCat();
-  const catLogic = useNuevaCat({ dataCat, setDataCat });
 
   const [todoId, setTodoId] = useState(null);
   const [todoEditando, setTodoEditando] = useState(null);
+
+  //para obtener id de categoria:
+  const [catId, setCatId] = useState(null);
+  const [catEditando, setCatEditando] = useState(null);
+
   //para pasar al modalDelete:
   const [idAEliminar, setIdAEliminar] = useState(null);
   //para saber si elimino cat o todo:
   const [tipoAEliminar, setTipoAEliminar] = useState(null);
 
   const todoLogic = useTodo({ todos, setTodos, todoId, setTodoId });
+  const catLogic = useNuevaCat({ dataCat, setDataCat, catId, setCatId });
 
   //todas las categorias
   const todasLasCategorias = [...categoriasFijas, ...dataCat];
@@ -54,6 +59,13 @@ export default function MobileLayout() {
     setTodoId(null);
     todoLogic.resetForm();
   };
+  //cuando cierro modal de categoria
+  const handleOnCloseModalCat = () => {
+    setShowModalCat(false);
+    setCatId(null);
+    setCatEditando(null);
+  };
+
   const handleOnDeleteModalDelete = () => {
     if (tipoAEliminar === "todo") {
       todoLogic.deleteData(idAEliminar);
@@ -94,6 +106,9 @@ export default function MobileLayout() {
                   setShowModalDelete={setShowModalDelete}
                   setIdAEliminar={setIdAEliminar}
                   setTipoAEliminar={setTipoAEliminar}
+                  setCatId={catLogic.setCatId}
+                  setShowModalCat={setShowModalCat}
+                  setCatEditando={setCatEditando}
                 />
               </div>
             )
@@ -144,8 +159,10 @@ export default function MobileLayout() {
         )}
         {showModalCat && (
           <ModalCategoria
-            onClose={() => setShowModalCat(false)}
+            onClose={handleOnCloseModalCat}
             catLogic={catLogic}
+            mode={catEditando ? "edit" : "create"}
+            catAEditar={catEditando}
           />
         )}
         {showModalDelete && (

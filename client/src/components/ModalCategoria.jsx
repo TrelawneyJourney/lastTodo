@@ -1,6 +1,12 @@
+import { useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 
-export default function ModalCategoria({ onClose, catLogic }) {
+export default function ModalCategoria({
+  onClose,
+  catLogic,
+  mode,
+  catAEditar,
+}) {
   const listaEmojis = [
     "😎",
     "❤️",
@@ -18,8 +24,22 @@ export default function ModalCategoria({ onClose, catLogic }) {
     "💅",
   ];
 
+  const editMode = mode === "edit";
+
+  useEffect(() => {
+    if (editMode && catAEditar) {
+      catLogic.setTitulo(catAEditar.titulo);
+      catLogic.setEmoji(catAEditar.emoji);
+      catLogic.setCatId(catAEditar.id);
+    }
+  }, [editMode, catAEditar]);
+
   const handleSubmit = async (e) => {
-    await catLogic.postNuevaCat(e);
+    if (editMode) {
+      catLogic.editCategoria(e);
+    } else {
+      await catLogic.postNuevaCat(e);
+    }
     onClose();
   };
 

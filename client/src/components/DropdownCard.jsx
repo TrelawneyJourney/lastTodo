@@ -7,6 +7,7 @@ export default function DropdownCard({
   onSelectCategory,
   onCatTitulo,
   onOpenModalDelete,
+  onOpenModalCatEdit,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropCardRef = useRef();
@@ -33,7 +34,12 @@ export default function DropdownCard({
             >
               Abrir
             </li>
-            <li className="item-dropCard">Editar</li>
+            <li
+              className="item-dropCard"
+              onClick={() => onOpenModalCatEdit(onCat)}
+            >
+              Editar
+            </li>
 
             <li
               className="item-dropCard"
