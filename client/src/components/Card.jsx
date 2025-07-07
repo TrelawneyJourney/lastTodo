@@ -56,7 +56,7 @@ export default function Card({
             onSelectCategory={onSelectCategory}
             onCatTitulo={c.titulo}
             onOpenModalDelete={handleOpenModalDelete}
-            onOpenModalCatEdit={handleOpenModalEdit}
+            onOpenModalCatEdit={() => handleOpenModalEdit(c)}
           />
           {/* <FaEllipsisVertical
             className="text-purple-950 text-lg cursor-pointer hover:text-purple-500"

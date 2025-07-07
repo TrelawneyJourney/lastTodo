@@ -36,14 +36,20 @@ export default function DropdownCard({
             </li>
             <li
               className="item-dropCard"
-              onClick={() => onOpenModalCatEdit(onCat)}
+              onClick={() => {
+                onOpenModalCatEdit();
+                setIsOpen(false);
+              }}
             >
               Editar
             </li>
 
             <li
               className="item-dropCard"
-              onClick={() => onOpenModalDelete(onCat)}
+              onClick={() => {
+                onOpenModalDelete(onCat);
+                setIsOpen(false);
+              }}
             >
               Eliminar
             </li>
