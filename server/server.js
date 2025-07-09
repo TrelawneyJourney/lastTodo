@@ -164,6 +164,7 @@ app.put("/nuevaCategorias/:idCat", async (req, res) => {
 });
 
 app.get("/test-db", async (req, res) => {
+  console.log("📡 Se llamó a /test-db");
   try {
     const result = await pool.query("SELECT NOW()");
     res.json(result.rows[0]);
@@ -172,6 +173,8 @@ app.get("/test-db", async (req, res) => {
     res.status(500).send("Error en la DB");
   }
 });
+
+console.log("Servidor iniciado");
 
 //escuchar en el puerto
 app.listen(PORT, () => {
