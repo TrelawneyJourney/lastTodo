@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 
-const PORT = process.env.DBLt_PORT || 5000;
+const PORT = process.env.DBLT_PORT || 5000;
 const app = express();
 const pool = require("./db");
 
