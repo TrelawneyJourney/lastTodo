@@ -163,6 +163,16 @@ app.put("/nuevaCategorias/:idCat", async (req, res) => {
   }
 });
 
+app.get("/test-db", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error en la DB");
+  }
+});
+
 //escuchar en el puerto
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

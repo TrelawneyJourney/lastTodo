@@ -6,7 +6,7 @@ const pool = new Pool({
   password: process.env.DBLT_PASSWORD,
   host: process.env.DBLT_HOST,
   port: process.env.DBLT_PORT,
-  database: "lasttodo",
+  database: process.env.DBLT_DATABASE,
 });
 
 module.exports = pool;
