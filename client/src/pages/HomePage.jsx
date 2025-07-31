@@ -4,7 +4,7 @@ import Modal from "../components/Modal";
 function HomePage() {
   return (
     <main>
-      <div className="bg-purple-100 p-6">
+      <div className="bg-purple-100">
         <MobileLayout />
       </div>
     </main>
